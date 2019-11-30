@@ -1,20 +1,30 @@
 package ru.skillbranch.gameofthrones.repositories
 
 import androidx.annotation.VisibleForTesting
-import ru.skillbranch.gameofthrones.data.local.entities.CharterFull
-import ru.skillbranch.gameofthrones.data.local.entities.CharterItem
-import ru.skillbranch.gameofthrones.data.remote.res.CharterRes
+import ru.skillbranch.gameofthrones.data.local.entities.CharacterFull
+import ru.skillbranch.gameofthrones.data.local.entities.CharacterItem
+import ru.skillbranch.gameofthrones.data.remote.res.CharacterRes
 import ru.skillbranch.gameofthrones.data.remote.res.HouseRes
+import ru.skillbranch.gameofthrones.storage.LocalStorage
+import ru.skillbranch.gameofthrones.storage.RemoteStorage
+import javax.inject.Inject
 
-object RootRepository {
+class RootRepository {
+
+    @Inject
+    lateinit var remoteStorage: RemoteStorage
+
+    @Inject
+    lateinit var localStorage: LocalStorage
+
 
     /**
      * Получение данных о всех домах
      * @param result - колбек содержащий в себе список данных о домах
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getAllHouses(result : (houses : List<HouseRes>) -> Unit) {
-        //TODO implement me
+    fun getAllHouses(result: (houses: List<HouseRes>) -> Unit) {
+        result(remoteStorage.getAllHouses())
     }
 
     /**
@@ -23,8 +33,8 @@ object RootRepository {
      * @param result - колбек содержащий в себе список данных о домах
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getNeedHouses(vararg houseNames: String, result : (houses : List<HouseRes>) -> Unit) {
-        //TODO implement me
+    fun getNeedHouses(vararg houseNames: String, result: (houses: List<HouseRes>) -> Unit) {
+        result(remoteStorage.getNeedHouses(houseNames))
     }
 
     /**
@@ -33,8 +43,11 @@ object RootRepository {
      * @param result - колбек содержащий в себе список данных о доме и персонажей в нем (Дом - Список Персонажей в нем)
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun getNeedHouseWithCharters(vararg houseNames: String, result : (houses : List<Pair<HouseRes, List<CharterRes>>>) -> Unit) {
-        //TODO implement me
+    fun getNeedHouseWithCharacters(
+        vararg houseNames: String,
+        result: (houses: List<Pair<HouseRes, List<CharacterRes>>>) -> Unit
+    ) {
+        result(remoteStorage.getNeedHouseWithCharacters(houseNames))
     }
 
     /**
@@ -44,18 +57,18 @@ object RootRepository {
      * @param complete - колбек о завершении вставки записей db
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun insertHouses(houses : List<HouseRes>, complete: () -> Unit) {
+    fun insertHouses(houses: List<HouseRes>, complete: () -> Unit) {
         //TODO implement me
     }
 
     /**
      * Запись данных о пересонажах в DB
-     * @param charters - Список персонажей (модель CharterRes - модель ответа из сети)
+     * @param Characters - Список персонажей (модель CharacterRes - модель ответа из сети)
      * необходимо произвести трансформацию данных
      * @param complete - колбек о завершении вставки записей db
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun insertCharters(charters : List<CharterRes>, complete: () -> Unit) {
+    fun insertCharacters(Characters: List<CharacterRes>, complete: () -> Unit) {
         //TODO implement me
     }
 
@@ -70,32 +83,31 @@ object RootRepository {
 
     /**
      * Поиск всех персонажей по имени дома, должен вернуть список краткой информации о персонажах
-     * дома - смотри модель CharterItem
+     * дома - смотри модель CharacterItem
      * @param name - краткое имя дома (его первычный ключ)
      * @param result - колбек содержащий в себе список краткой информации о персонажах дома
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun findChartersByHouseName(name : String, result: (charters : List<CharterItem>) -> Unit) {
-        //TODO implement me
+    fun findCharactersByHouseName(name: String, result: (Characters: List<CharacterItem>) -> Unit) {
+        result(localStorage.findCharactersByHouseName(name))
     }
 
     /**
      * Поиск персонажа по его идентификатору, должен вернуть полную информацию о персонаже
-     * и его родственных отношения - смотри модель CharterFull
+     * и его родственных отношения - смотри модель CharacterFull
      * @param id - идентификатор персонажа
      * @param result - колбек содержащий в себе полную информацию о персонаже
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun findCharterFullById(id : String, result: (charter : CharterFull) -> Unit) {
-        //TODO implement me
+    fun findCharacterFullById(id: String, result: (Character: CharacterFull) -> Unit) {
+        result(localStorage.findCharacterFullById(id))
     }
 
     /**
      * Метод возвращет true если в базе нет ни одной записи, иначе false
      * @param result - колбек о завершении очистки db
      */
-    fun isNeedUpdate(result: (isNeed : Boolean) -> Unit){
-        //TODO implement me
+    fun isNeedUpdate(result: (isNeed: Boolean) -> Unit) {
+        result(localStorage.isNeedUpdate())
     }
-
 }

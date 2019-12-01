@@ -7,26 +7,32 @@ import dagger.Module
 import dagger.Provides
 import ru.skillbranch.gameofthrones.ValueTransmitter
 import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
-import ru.skillbranch.gameofthrones.routers.CharactersListScreenRouter
-import ru.skillbranch.gameofthrones.ui.CharactersListScreenFragment
-import ru.skillbranch.gameofthrones.ui.CharactersListScreenViewModel
+import ru.skillbranch.gameofthrones.routers.CharacterListRouter
+import ru.skillbranch.gameofthrones.ui.CharacterListFragment
+import ru.skillbranch.gameofthrones.ui.CharacterListViewModel
+import ru.skillbranch.gameofthrones.ui.HOUSE_NAME
 
 @Module
-class CharactersListScreenModule(private val fragment: CharactersListScreenFragment) {
+class CharacterListModule(private val fragment: CharacterListFragment) {
 
     @Provides
     fun provideViewModel(
-        router: CharactersListScreenRouter,
+        router: CharacterListRouter,
         repository: GameOfThroneRepository,
         valueTransmitter: ValueTransmitter
-    ): CharactersListScreenViewModel {
+    ): CharacterListViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-                CharactersListScreenViewModel(router, repository, valueTransmitter) as T
+                CharacterListViewModel(
+                    router,
+                    repository,
+                    valueTransmitter,
+                    fragment.arguments?.getString(HOUSE_NAME) ?: ""
+                ) as T
         }
         return ViewModelProviders.of(
             fragment,
             factory
-        ).get(CharactersListScreenViewModel::class.java)
+        ).get(CharacterListViewModel::class.java)
     }
 }

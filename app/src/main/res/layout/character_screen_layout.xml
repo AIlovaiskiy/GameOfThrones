@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        tools:visibility="gone">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/houseLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Words"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_icon_decor"
+            app:layout_constraintBottom_toTopOf="@id/born"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/wordsValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/words"
+            app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/born"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Born"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_icon_decor"
+            app:layout_constraintBottom_toTopOf="@id/titles"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/words" />
+
+        <TextView
+            android:id="@+id/bornValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/born"
+            app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/titles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titles"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_icon_decor"
+            app:layout_constraintBottom_toTopOf="@id/aliases"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/born" />
+
+        <TextView
+            android:id="@+id/titlesValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/titles"
+            app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/aliases"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aliases"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_icon_decor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titles" />
+
+        <TextView
+            android:id="@+id/aliasesValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/aliases"
+            app:layout_constraintLeft_toRightOf="@id/aliases"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/father"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Father"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/fatherButton"
+            app:layout_constraintRight_toRightOf="@id/aliases"
+            app:layout_constraintTop_toTopOf="@id/fatherButton" />
+
+        <TextView
+            android:id="@+id/mother"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mother"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/motherButton"
+            app:layout_constraintRight_toRightOf="@id/aliases"
+            app:layout_constraintTop_toTopOf="@id/motherButton" />
+
+        <Button
+            android:id="@+id/fatherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary_dark"
+            app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
+            app:layout_constraintTop_toBottomOf="@id/aliasesValue" />
+
+        <Button
+            android:id="@+id/motherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/color_primary_dark"
+            app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
+            app:layout_constraintTop_toBottomOf="@id/fatherButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

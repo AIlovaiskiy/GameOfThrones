@@ -1,14 +1,17 @@
 package ru.skillbranch.gameofthrones.di.modules
 
+import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.skillbranch.gameofthrones.AppConfig
-import ru.skillbranch.gameofthrones.repositories.RootRepository
-import ru.skillbranch.gameofthrones.storage.LocalStorage
-import ru.skillbranch.gameofthrones.storage.RemoteStorage
+import ru.skillbranch.gameofthrones.data.Database
+import ru.skillbranch.gameofthrones.data.storage.LocalStorage
+import ru.skillbranch.gameofthrones.data.storage.RemoteStorage
+import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
 import javax.inject.Singleton
 
 @Module
@@ -26,7 +29,7 @@ class DataModule {
     internal fun provideRetrofitV2(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(AppConfig.BASE_URL)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()
     }
@@ -37,14 +40,23 @@ class DataModule {
         return retrofit.create(RemoteStorage::class.java)
     }
 
-    @Singleton
     @Provides
-    fun provideRepository(): RootRepository {
-        return RootRepository()
+    fun provideRepository(
+        localStorage: LocalStorage,
+        remoteStorage: RemoteStorage
+    ): GameOfThroneRepository {
+        return GameOfThroneRepository(remoteStorage, localStorage)
     }
 
+    @Singleton
     @Provides
-    fun provideLocalStorageStorage(): LocalStorage {
-        return LocalStorage
+    fun provideLocalStorageStorage(context: Context): LocalStorage {
+        return LocalStorage(
+            Room.databaseBuilder(
+                context,
+                Database::class.java,
+                "game_of_throne"
+            ).build()
+        )
     }
 }

@@ -5,9 +5,11 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
+import ru.skillbranch.gameofthrones.di.subcomponents.CharacterListSubcomponent
 import ru.skillbranch.gameofthrones.di.subcomponents.CharacterScreenSubcomponent
 import ru.skillbranch.gameofthrones.di.subcomponents.CharactersListScreenSubcomponent
 import ru.skillbranch.gameofthrones.di.subcomponents.SplashScreenSubcomponent
+import ru.skillbranch.gameofthrones.ui.CharacterListFragment
 import ru.skillbranch.gameofthrones.ui.CharacterScreenFragment
 import ru.skillbranch.gameofthrones.ui.CharactersListScreenFragment
 import ru.skillbranch.gameofthrones.ui.SplashScreenFragment
@@ -16,7 +18,8 @@ import ru.skillbranch.gameofthrones.ui.SplashScreenFragment
     subcomponents = [
         CharacterScreenSubcomponent::class,
         CharactersListScreenSubcomponent::class,
-        SplashScreenSubcomponent::class
+        SplashScreenSubcomponent::class,
+        CharacterListSubcomponent::class
     ]
 )
 abstract class FragmentsModule {
@@ -40,6 +43,13 @@ abstract class FragmentsModule {
     @ClassKey(SplashScreenFragment::class)
     internal abstract fun bindSplashScreenFragment(
         factory: SplashScreenSubcomponent.Factory
+    ): AndroidInjector.Factory<*>
+
+    @Binds
+    @IntoMap
+    @ClassKey(CharacterListFragment::class)
+    internal abstract fun bindCharacterListFragment(
+        factory: CharacterListSubcomponent.Factory
     ): AndroidInjector.Factory<*>
 
 }

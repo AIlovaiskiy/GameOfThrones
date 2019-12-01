@@ -2,15 +2,10 @@ package ru.skillbranch.gameofthrones.di.modules
 
 import dagger.Module
 import dagger.Provides
-import ru.skillbranch.gameofthrones.routers.CharacterScreenRouter
-import ru.skillbranch.gameofthrones.routers.CharactersListScreenRouter
-import ru.skillbranch.gameofthrones.routers.MainActivityRouter
-import ru.skillbranch.gameofthrones.routers.SplashScreenRouter
+import ru.skillbranch.gameofthrones.routers.*
 import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Singleton
 
 
@@ -47,4 +42,8 @@ class NavigationModule {
     @Provides
     fun provideCharactersListScreenRouter(router: Router): CharactersListScreenRouter =
         CharactersListScreenRouter(router)
+
+    @Provides
+    fun provideCharacterListRouter(router: Router): CharacterListRouter =
+        CharacterListRouter(router)
 }

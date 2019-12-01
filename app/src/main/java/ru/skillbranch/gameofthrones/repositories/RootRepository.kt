@@ -1,22 +1,26 @@
 package ru.skillbranch.gameofthrones.repositories
 
 import androidx.annotation.VisibleForTesting
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ru.skillbranch.gameofthrones.GameOfThroneApplication
 import ru.skillbranch.gameofthrones.data.local.entities.CharacterFull
 import ru.skillbranch.gameofthrones.data.local.entities.CharacterItem
 import ru.skillbranch.gameofthrones.data.remote.res.CharacterRes
 import ru.skillbranch.gameofthrones.data.remote.res.HouseRes
-import ru.skillbranch.gameofthrones.storage.LocalStorage
-import ru.skillbranch.gameofthrones.storage.RemoteStorage
 import javax.inject.Inject
 
-class RootRepository {
 
-    @Inject
-    lateinit var remoteStorage: RemoteStorage
+object RootRepository : CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
-    @Inject
-    lateinit var localStorage: LocalStorage
+    @set:Inject
+    lateinit var gameOfThroneRepository: GameOfThroneRepository
 
+    init {
+        GameOfThroneApplication.instance.appComponent?.inject(this)
+    }
 
     /**
      * Получение данных о всех домах
@@ -24,7 +28,7 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun getAllHouses(result: (houses: List<HouseRes>) -> Unit) {
-        result(remoteStorage.getAllHouses())
+        launch { result(gameOfThroneRepository.getAllHouses()) }
     }
 
     /**
@@ -34,7 +38,7 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun getNeedHouses(vararg houseNames: String, result: (houses: List<HouseRes>) -> Unit) {
-        result(remoteStorage.getNeedHouses(houseNames))
+        launch { result(gameOfThroneRepository.getNeedHouses(*houseNames)) }
     }
 
     /**
@@ -47,8 +51,9 @@ class RootRepository {
         vararg houseNames: String,
         result: (houses: List<Pair<HouseRes, List<CharacterRes>>>) -> Unit
     ) {
-        result(remoteStorage.getNeedHouseWithCharacters(houseNames))
+        launch { result(gameOfThroneRepository.getNeedHouseWithCharacters(*houseNames)) }
     }
+
 
     /**
      * Запись данных о домах в DB
@@ -58,18 +63,24 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun insertHouses(houses: List<HouseRes>, complete: () -> Unit) {
-        //TODO implement me
+        launch {
+            gameOfThroneRepository.insertHouses(houses)
+            withContext(Dispatchers.Main) { complete() }
+        }
     }
 
     /**
      * Запись данных о пересонажах в DB
-     * @param Characters - Список персонажей (модель CharacterRes - модель ответа из сети)
+     * @param characters - Список персонажей (модель CharacterRes - модель ответа из сети)
      * необходимо произвести трансформацию данных
      * @param complete - колбек о завершении вставки записей db
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun insertCharacters(Characters: List<CharacterRes>, complete: () -> Unit) {
-        //TODO implement me
+    fun insertCharacters(characters: List<CharacterRes>, complete: () -> Unit) {
+        launch {
+            gameOfThroneRepository.insertCharacters(characters)
+            withContext(Dispatchers.Main) { complete() }
+        }
     }
 
     /**
@@ -78,7 +89,10 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun dropDb(complete: () -> Unit) {
-        //TODO implement me
+        launch {
+            gameOfThroneRepository.dropDb()
+            withContext(Dispatchers.Main) { complete() }
+        }
     }
 
     /**
@@ -89,7 +103,7 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun findCharactersByHouseName(name: String, result: (Characters: List<CharacterItem>) -> Unit) {
-        result(localStorage.findCharactersByHouseName(name))
+        launch { result(gameOfThroneRepository.findCharactersByHouseName(name)) }
     }
 
     /**
@@ -100,7 +114,7 @@ class RootRepository {
      */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun findCharacterFullById(id: String, result: (Character: CharacterFull) -> Unit) {
-        result(localStorage.findCharacterFullById(id))
+        launch { result(gameOfThroneRepository.findCharacterFullById(id)) }
     }
 
     /**
@@ -108,6 +122,6 @@ class RootRepository {
      * @param result - колбек о завершении очистки db
      */
     fun isNeedUpdate(result: (isNeed: Boolean) -> Unit) {
-        result(localStorage.isNeedUpdate())
+        launch { result(gameOfThroneRepository.isNeedUpdate()) }
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import ru.skillbranch.gameofthrones.di.subcomponents.SplashScreenSubcomponent
+import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
 import ru.skillbranch.gameofthrones.repositories.RootRepository
 import ru.skillbranch.gameofthrones.routers.SplashScreenRouter
 import ru.skillbranch.gameofthrones.ui.SplashScreenFragment
@@ -18,7 +19,7 @@ class SplashScreenModule(private val fragment: SplashScreenFragment) {
     @Provides
     fun provideViewModel(
         router: SplashScreenRouter,
-        repository: RootRepository
+        repository: GameOfThroneRepository
     ): SplashScreenViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T =

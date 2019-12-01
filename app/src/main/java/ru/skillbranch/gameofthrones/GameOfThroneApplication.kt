@@ -6,6 +6,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import ru.skillbranch.gameofthrones.di.AppComponent
 import ru.skillbranch.gameofthrones.di.DaggerAppComponent
+import ru.skillbranch.gameofthrones.di.modules.AppModule
 import javax.inject.Inject
 
 class GameOfThroneApplication : Application(), HasAndroidInjector {
@@ -16,11 +17,16 @@ class GameOfThroneApplication : Application(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> = androidInjector
     var appComponent: AppComponent? = null
 
+    companion object {
+        lateinit var instance: GameOfThroneApplication
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
-
-        appComponent = DaggerAppComponent
-            .create()
+        instance = this
+        appComponent = DaggerAppComponent.builder().appModule(AppModule(this.baseContext))
+            .build()
         appComponent?.inject(this)
     }
 }

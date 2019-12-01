@@ -1,17 +1,21 @@
 package ru.skillbranch.gameofthrones.di.modules
 
-import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
+import ru.skillbranch.gameofthrones.ValueTransmitter
 import javax.inject.Singleton
 
 @Module
-class AppModule {
+class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideContext(application: Application): Context =
-            application.applicationContext
+    fun provideContext(): Context =
+        context
+
+    @Provides
+    @Singleton
+    fun provideTransmitter(): ValueTransmitter =
+        ValueTransmitter()
 }

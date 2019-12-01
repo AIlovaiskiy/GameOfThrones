@@ -2,6 +2,7 @@ package ru.skillbranch.gameofthrones
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import dagger.android.AndroidInjection
 import ru.terrakok.cicerone.Navigator
 import ru.terrakok.cicerone.NavigatorHolder
@@ -24,6 +25,11 @@ class MainActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.handleNavigation()
+    }
+
+    fun setBar(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
     }
 
     override fun onResume() {
@@ -34,6 +40,11 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         navigationHolder.removeNavigator()
         super.onPause()
+    }
+
+
+    override fun onBackPressed() {
+        viewModel.back()
     }
 
 }

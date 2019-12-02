@@ -19,7 +19,9 @@ data class CharacterRes(
     val povBooks: List<Any> = listOf(),
     val tvSeries: List<String> = listOf(),
     val playedBy: List<String> = listOf()
-)
+) {
+    var houseId: String = String()
+}
 
 fun CharacterRes.toCharacter(): Character = Character(
     id = url.replace("\\D".toRegex(), ""),
@@ -33,5 +35,5 @@ fun CharacterRes.toCharacter(): Character = Character(
     father = father,
     mother = mother,
     spouse = spouse,
-    houseId = allegiances[0].replace("\\D".toRegex(), "")
+    houseId = houseId
 )

@@ -74,8 +74,8 @@ fun Character.toFull(
     mother = mother
 )
 
-fun Character.toRelative(houseName: String): RelativeCharacter = RelativeCharacter(
+fun Character.toRelative(): RelativeCharacter = RelativeCharacter(
     id = id,
-    house = houseName,
+    house = houseId,
     name = name
 )

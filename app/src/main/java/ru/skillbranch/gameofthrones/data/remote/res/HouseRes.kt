@@ -22,7 +22,7 @@ data class HouseRes(
 )
 
 fun HouseRes.toHouse(): House = House(
-    id = url.replace("\\D".toRegex(), ""),
+    id = name.toShortName(),
     name = name,
     region = region,
     coatOfArms = coatOfArms,
@@ -37,3 +37,14 @@ fun HouseRes.toHouse(): House = House(
     diedOut = diedOut,
     ancestralWeapons = ancestralWeapons
 )
+
+fun String.toShortName(): String = when (this) {
+    "House Stark of Winterfell" -> "Stark"
+    "House Lannister of Casterly Rock" -> "Lannister"
+    "House Targaryen of King's Landing" -> "Targaryen"
+    "House Greyjoy of Pyke" -> "Greyjoy"
+    "House Tyrell of Highgarden" -> "Tyrell"
+    "House Baratheon of Dragonstone" -> "Baratheon"
+    "House Nymeros Martell of Sunspear" -> "Martell"
+    else -> "Stark"
+}

@@ -7,8 +7,6 @@ import dagger.Module
 import dagger.Provides
 import ru.skillbranch.gameofthrones.MainActivity
 import ru.skillbranch.gameofthrones.MainActivityViewModel
-import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
-import ru.skillbranch.gameofthrones.repositories.RootRepository
 import ru.skillbranch.gameofthrones.routers.MainActivityRouter
 
 @Module
@@ -16,12 +14,11 @@ class MainActivityModule(private val activity: MainActivity) {
 
     @Provides
     internal fun provideViewModel(
-        router: MainActivityRouter,
-        repository: GameOfThroneRepository
+        router: MainActivityRouter
     ): MainActivityViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-                MainActivityViewModel(router, repository) as T
+                MainActivityViewModel(router) as T
         }
         return ViewModelProviders.of(
             activity,

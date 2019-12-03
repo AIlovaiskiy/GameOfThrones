@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import ru.skillbranch.gameofthrones.ValueTransmitter
-import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
-import ru.skillbranch.gameofthrones.routers.CharactersListScreenRouter
+import ru.skillbranch.gameofthrones.SearchTextTransmitter
 import ru.skillbranch.gameofthrones.ui.CharactersListScreenFragment
 import ru.skillbranch.gameofthrones.ui.CharactersListScreenViewModel
 
@@ -16,13 +14,13 @@ class CharactersListScreenModule(private val fragment: CharactersListScreenFragm
 
     @Provides
     fun provideViewModel(
-        router: CharactersListScreenRouter,
-        repository: GameOfThroneRepository,
-        valueTransmitter: ValueTransmitter
+        searchTextTransmitter: SearchTextTransmitter
     ): CharactersListScreenViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-                CharactersListScreenViewModel(router, repository, valueTransmitter) as T
+                CharactersListScreenViewModel(
+                    searchTextTransmitter
+                ) as T
         }
         return ViewModelProviders.of(
             fragment,

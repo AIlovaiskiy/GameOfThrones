@@ -4,17 +4,17 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
-class ValueTransmitter {
+abstract class ValueTransmitter<T> {
 
-    private val valuesPublishSubject: PublishSubject<String> = PublishSubject.create()
+    private val valuesPublishSubject: PublishSubject<T> = PublishSubject.create()
 
-    private val valuesBehaviorSubject: BehaviorSubject<String> = BehaviorSubject.create()
+    private val valuesBehaviorSubject: BehaviorSubject<T> = BehaviorSubject.create()
 
-    val listenValues: Observable<String> = valuesPublishSubject.hide()
+    val listenValues: Observable<T> = valuesPublishSubject.hide()
 
-    val getLastAndListen: Observable<String> = valuesBehaviorSubject.hide()
+    val getLastAndListen: Observable<T> = valuesBehaviorSubject.hide()
 
-    fun accept(newValue: String) {
+    fun accept(newValue: T) {
         valuesPublishSubject.onNext(newValue)
         valuesBehaviorSubject.onNext(newValue)
     }

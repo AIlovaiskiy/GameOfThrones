@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.goToSplashScreen()
     }
 
-    fun setBar(toolbar: Toolbar) {
+    fun setSupportBar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
     }
 

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import ru.skillbranch.gameofthrones.ValueTransmitter
+import ru.skillbranch.gameofthrones.SearchTextTransmitter
 import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
 import ru.skillbranch.gameofthrones.routers.CharacterListRouter
 import ru.skillbranch.gameofthrones.ui.CharacterListFragment
@@ -19,14 +19,14 @@ class CharacterListModule(private val fragment: CharacterListFragment) {
     fun provideViewModel(
         router: CharacterListRouter,
         repository: GameOfThroneRepository,
-        valueTransmitter: ValueTransmitter
+        searchTextTransmitter: SearchTextTransmitter
     ): CharacterListViewModel {
         val factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T =
                 CharacterListViewModel(
                     router,
                     repository,
-                    valueTransmitter,
+                    searchTextTransmitter,
                     fragment.arguments?.getString(HOUSE_NAME) ?: ""
                 ) as T
         }

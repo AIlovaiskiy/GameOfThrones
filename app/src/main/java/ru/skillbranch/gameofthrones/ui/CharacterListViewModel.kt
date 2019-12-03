@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.skillbranch.gameofthrones.ValueTransmitter
+import ru.skillbranch.gameofthrones.SearchTextTransmitter
 import ru.skillbranch.gameofthrones.base.BaseViewModel
 import ru.skillbranch.gameofthrones.data.local.entities.CharacterItem
 import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
@@ -14,18 +14,16 @@ import ru.skillbranch.gameofthrones.routers.CharacterListRouter
 class CharacterListViewModel(
     private val router: CharacterListRouter,
     private val repository: GameOfThroneRepository,
-    private val valueTransmitter: ValueTransmitter,
+    private val searchTextTransmitter: SearchTextTransmitter,
     private val houseName: String
 ) : BaseViewModel() {
 
     val characters: LiveData<List<CharacterItem>> = MutableLiveData()
 
-
     init {
         loadData()
-
         compositeDisposable.add(
-            valueTransmitter
+            searchTextTransmitter
                 .listenValues
                 .map(::search)
                 .subscribe()

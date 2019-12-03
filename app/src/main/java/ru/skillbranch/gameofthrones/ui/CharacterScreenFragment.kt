@@ -1,6 +1,7 @@
 package ru.skillbranch.gameofthrones.ui
 
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -12,6 +13,8 @@ import ru.skillbranch.gameofthrones.MainActivity
 import ru.skillbranch.gameofthrones.R
 import ru.skillbranch.gameofthrones.base.BaseFragment
 import ru.skillbranch.gameofthrones.data.local.entities.CharacterFull
+import ru.skillbranch.gameofthrones.data.local.entities.toHouseLogo
+import ru.skillbranch.gameofthrones.data.local.entities.toHousesColor
 
 const val CHARACTER_ID = "CHARACTER_ID"
 
@@ -25,19 +28,21 @@ class CharacterScreenFragment : BaseFragment<CharacterScreenViewModel>() {
     }
 
     override fun setupViews(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).setBar(toolbar)
+        (activity as MainActivity).setSupportBar(toolbar)
         toolbar.setNavigationOnClickListener {
             viewModel.back()
         }
     }
 
     private fun bindData(characterData: CharacterFull) {
-        val (logo, backgroundColor) = characterData.house.toHouseLogoAndColor()
+        val logo = characterData.house.toHouseLogo()
+        val color = characterData.house.toHousesColor()
         toolbar.title = characterData.name
-        words.setDrawableColor(backgroundColor)
-        born.setDrawableColor(backgroundColor)
-        titles.setDrawableColor(backgroundColor)
-        aliases.setDrawableColor(backgroundColor)
+        toolbar.background = (ColorDrawable(ContextCompat.getColor(context!!, color)))
+        words.setDrawableColor(color)
+        born.setDrawableColor(color)
+        titles.setDrawableColor(color)
+        aliases.setDrawableColor(color)
         wordsValue.text = characterData.words
         bornValue.text = characterData.born
         titlesValue.text = characterData.titles.joinToString(separator = ", ")
@@ -65,7 +70,6 @@ class CharacterScreenFragment : BaseFragment<CharacterScreenViewModel>() {
         view?.let { onSnack(it, characterData.died) }
     }
 
-
     companion object {
 
         fun getInstance(characterId: String): CharacterScreenFragment =
@@ -87,17 +91,5 @@ class CharacterScreenFragment : BaseFragment<CharacterScreenViewModel>() {
         val icon = this.compoundDrawables[0]
         val color = ContextCompat.getColor(this.context, colorResId)
         icon?.let { it.setColorFilter(color, PorterDuff.Mode.SRC_IN) }
-    }
-
-
-    private fun String.toHouseLogoAndColor(): Pair<Int, Int> = when (this) {
-        "House Stark of Winterfell" -> R.drawable.stark_coast_of_arms to R.color.stark_accent
-        "House Lannister of Casterly Rock" -> R.drawable.lannister__coast_of_arms to R.color.lannister_accent
-        "House Targaryen of King's Landing" -> R.drawable.targaryen_coast_of_arms to R.color.targaryen_accent
-        "House Greyjoy of Pyke" -> R.drawable.greyjoy_coast_of_arms to R.color.greyjoy_accent
-        "House Tyrell of Highgarden" -> R.drawable.targaryen_coast_of_arms to R.color.tyrel_accent
-        "House Baratheon of Dragonstone" -> R.drawable.baratheon to R.color.baratheon_primary
-        "House Nymeros Martell of Sunspear" -> R.drawable.martel_coast_of_arms to R.color.martel_primary
-        else -> R.drawable.stark_coast_of_arms to R.color.stark_accent  // Старки рулят
     }
 }

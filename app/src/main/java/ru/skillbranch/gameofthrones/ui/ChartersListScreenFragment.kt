@@ -9,7 +9,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.google.android.material.tabs.TabLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.characters_list_screen_layout.*
 import ru.skillbranch.gameofthrones.MainActivity
@@ -29,33 +29,33 @@ class CharactersListScreenFragment : BaseFragment<CharactersListScreenViewModel>
             })
     }
 
+    private val onPageChangeListener: ViewPager2.OnPageChangeCallback by lazy {
+        object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                val color = (housePager.adapter as HousesPageAdapter).getColor(position)
+                tabsLayout.background = ColorDrawable(ContextCompat.getColor(context!!, color))
+                toolbar.background = (ColorDrawable(ContextCompat.getColor(context!!, color)))
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
     override fun setupViews(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).setBar(toolbar)
-        housePager.adapter = HousesPageAdapter(childFragmentManager, lifecycle)
-        tabsLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: TabLayout.Tab) {
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-            }
-
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                val color = (housePager.adapter as HousesPageAdapter).getColor(tab.position)
-                tabsLayout.background = ColorDrawable(ContextCompat.getColor(context!!, color))
-                toolbar.background = (ColorDrawable(ContextCompat.getColor(context!!, color)))
-            }
-        })
-
+        (activity as MainActivity).setSupportBar(toolbar)
+        with(housePager) {
+            adapter = HousesPageAdapter(childFragmentManager, lifecycle)
+            offscreenPageLimit = 3
+        }
         TabLayoutMediator(tabsLayout, housePager, true) { tab, position ->
             tab.text = (housePager.adapter as HousesPageAdapter).getTitle(position)
         }.attach()
+        housePager.registerOnPageChangeCallback(onPageChangeListener)
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_menu, menu)
@@ -76,6 +76,11 @@ class CharactersListScreenFragment : BaseFragment<CharactersListScreenViewModel>
             if (!isFocused) viewModel.endSearch()
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        housePager.unregisterOnPageChangeCallback(onPageChangeListener)
     }
 
     companion object {

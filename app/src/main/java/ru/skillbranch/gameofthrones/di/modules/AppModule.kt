@@ -3,7 +3,7 @@ package ru.skillbranch.gameofthrones.di.modules
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ru.skillbranch.gameofthrones.ValueTransmitter
+import ru.skillbranch.gameofthrones.SearchTextTransmitter
 import javax.inject.Singleton
 
 @Module
@@ -16,6 +16,6 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideTransmitter(): ValueTransmitter =
-        ValueTransmitter()
+    fun provideTransmitter(): SearchTextTransmitter =
+        SearchTextTransmitter()
 }

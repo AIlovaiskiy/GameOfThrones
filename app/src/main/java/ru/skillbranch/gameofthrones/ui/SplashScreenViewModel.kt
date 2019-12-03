@@ -6,9 +6,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.skillbranch.gameofthrones.AppConfig
 import ru.skillbranch.gameofthrones.base.BaseViewModel
+import ru.skillbranch.gameofthrones.data.local.entities.toShortName
 import ru.skillbranch.gameofthrones.data.remote.res.CharacterRes
 import ru.skillbranch.gameofthrones.data.remote.res.HouseRes
-import ru.skillbranch.gameofthrones.data.remote.res.toShortName
 import ru.skillbranch.gameofthrones.repositories.GameOfThroneRepository
 import ru.skillbranch.gameofthrones.routers.SplashScreenRouter
 

@@ -30,10 +30,6 @@ class LocalStorage(private val database: Database) {
         return database.characterDao().getCharacterById(id)
     }
 
-    fun findHouseNameById(houseId: String): String {
-        return database.houseDao().getHouseNameById(houseId)
-    }
-
     fun findHouseById(houseId: String): House {
         return database.houseDao().getHouseById(houseId)
     }

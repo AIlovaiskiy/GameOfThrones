@@ -1,6 +1,7 @@
 package ru.skillbranch.gameofthrones.data.remote.res
 
 import ru.skillbranch.gameofthrones.data.local.entities.House
+import ru.skillbranch.gameofthrones.data.local.entities.toShortName
 
 data class HouseRes(
     val url: String,
@@ -37,14 +38,3 @@ fun HouseRes.toHouse(): House = House(
     diedOut = diedOut,
     ancestralWeapons = ancestralWeapons
 )
-
-fun String.toShortName(): String = when (this) {
-    "House Stark of Winterfell" -> "Stark"
-    "House Lannister of Casterly Rock" -> "Lannister"
-    "House Targaryen of King's Landing" -> "Targaryen"
-    "House Greyjoy of Pyke" -> "Greyjoy"
-    "House Tyrell of Highgarden" -> "Tyrell"
-    "House Baratheon of Dragonstone" -> "Baratheon"
-    "House Nymeros Martell of Sunspear" -> "Martell"
-    else -> "Stark"
-}

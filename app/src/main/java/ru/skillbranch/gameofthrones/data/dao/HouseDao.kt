@@ -17,9 +17,6 @@ interface HouseDao {
     @Query("SELECT id FROM House WHERE name LIKE '%' || :name || '%'")
     fun getHouseIdByName(name: String): String
 
-    @Query("SELECT name FROM House WHERE id = :id")
-    fun getHouseNameById(id: String): String
-
     @Query("SELECT * FROM House WHERE id = :houseId")
     fun getHouseById(houseId: String): House
 

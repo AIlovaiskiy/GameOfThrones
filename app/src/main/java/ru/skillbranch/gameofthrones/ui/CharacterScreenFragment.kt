@@ -1,7 +1,10 @@
 package ru.skillbranch.gameofthrones.ui
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.character_screen_layout.*
@@ -29,12 +32,17 @@ class CharacterScreenFragment : BaseFragment<CharacterScreenViewModel>() {
     }
 
     private fun bindData(characterData: CharacterFull) {
+        val (logo, backgroundColor) = characterData.house.toHouseLogoAndColor()
         toolbar.title = characterData.name
+        words.setDrawableColor(backgroundColor)
+        born.setDrawableColor(backgroundColor)
+        titles.setDrawableColor(backgroundColor)
+        aliases.setDrawableColor(backgroundColor)
         wordsValue.text = characterData.words
         bornValue.text = characterData.born
         titlesValue.text = characterData.titles.joinToString(separator = ", ")
         aliasesValue.text = characterData.aliases.joinToString(separator = ", ")
-        houseLogo.setImageResource(characterData.house.toHouseLogo())
+        houseLogo.setImageResource(logo)
         characterData.father?.let { parent ->
             father.visibility = View.VISIBLE
             fatherButton.visibility = View.VISIBLE
@@ -75,15 +83,21 @@ class CharacterScreenFragment : BaseFragment<CharacterScreenViewModel>() {
             .show()
     }
 
+    private fun TextView.setDrawableColor(colorResId: Int) {
+        val icon = this.compoundDrawables[0]
+        val color = ContextCompat.getColor(this.context, colorResId)
+        icon?.let { it.setColorFilter(color, PorterDuff.Mode.SRC_IN) }
+    }
 
-    private fun String.toHouseLogo(): Int = when (this) {
-        "House Stark of Winterfell" -> R.drawable.stark_coast_of_arms
-        "House Lannister of Casterly Rock" -> R.drawable.lannister__coast_of_arms
-        "House Targaryen of King's Landing" -> R.drawable.targaryen_coast_of_arms
-        "House Greyjoy of Pyke" -> R.drawable.greyjoy_coast_of_arms
-        "House Tyrell of Highgarden" -> R.drawable.targaryen_coast_of_arms
-        "House Baratheon of Dragonstone" -> R.drawable.baratheon
-        "House Nymeros Martell of Sunspear" -> R.drawable.martel_coast_of_arms
-        else -> R.drawable.stark_coast_of_arms // Старки рулят
+
+    private fun String.toHouseLogoAndColor(): Pair<Int, Int> = when (this) {
+        "House Stark of Winterfell" -> R.drawable.stark_coast_of_arms to R.color.stark_accent
+        "House Lannister of Casterly Rock" -> R.drawable.lannister__coast_of_arms to R.color.lannister_accent
+        "House Targaryen of King's Landing" -> R.drawable.targaryen_coast_of_arms to R.color.targaryen_accent
+        "House Greyjoy of Pyke" -> R.drawable.greyjoy_coast_of_arms to R.color.greyjoy_accent
+        "House Tyrell of Highgarden" -> R.drawable.targaryen_coast_of_arms to R.color.tyrel_accent
+        "House Baratheon of Dragonstone" -> R.drawable.baratheon to R.color.baratheon_primary
+        "House Nymeros Martell of Sunspear" -> R.drawable.martel_coast_of_arms to R.color.martel_primary
+        else -> R.drawable.stark_coast_of_arms to R.color.stark_accent  // Старки рулят
     }
 }

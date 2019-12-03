@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/characterContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -51,81 +52,90 @@
             android:id="@+id/words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
             android:text="Words"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_icon_decor"
-            app:layout_constraintBottom_toTopOf="@id/born"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBaseline_toBaselineOf="@id/wordsValue"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/wordsValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/words"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/bornValue"
             app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/born"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
             android:text="Born"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_icon_decor"
-            app:layout_constraintBottom_toTopOf="@id/titles"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/words" />
+            app:layout_constraintBaseline_toBaselineOf="@id/bornValue"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/bornValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/born"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/titlesValue"
             app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wordsValue" />
 
         <TextView
             android:id="@+id/titles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
             android:text="Titles"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_icon_decor"
-            app:layout_constraintBottom_toTopOf="@id/aliases"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/born" />
+            app:layout_constraintBaseline_toBaselineOf="@id/titlesValue"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/titlesValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/titles"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/aliasesValue"
             app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bornValue" />
 
         <TextView
             android:id="@+id/aliases"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
             android:text="Aliases"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_icon_decor"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titles" />
+            app:layout_constraintBaseline_toBaselineOf="@id/aliasesValue"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/aliasesValue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/aliases"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@id/fatherButton"
             app:layout_constraintLeft_toRightOf="@id/aliases"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titlesValue" />
 
         <TextView
             android:id="@+id/father"
@@ -154,6 +164,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/color_primary_dark"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toTopOf="@id/motherButton"
             app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
             app:layout_constraintTop_toBottomOf="@id/aliasesValue" />
 
@@ -162,10 +174,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/color_primary_dark"
+            android:textColor="@android:color/white"
             app:layout_constraintLeft_toLeftOf="@id/aliasesValue"
             app:layout_constraintTop_toBottomOf="@id/fatherButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
